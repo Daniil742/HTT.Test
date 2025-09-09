@@ -27,23 +27,17 @@ x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
-[Aa][Rr][Mm]64[Ee][Cc]/
 bld/
 [Oo]bj/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
 
-# Build results on 'Bin' directories
-**/[Bb]in/*
-# Uncomment if you have tasks that rely on *.refresh files to move binaries
-# (https://github.com/github/gitignore/pull/3736)
-#!**/[Bb]in/*.refresh
-
-# Visual Studio 2015/2017 cache/options directory
+# Visual Studio 2015/2017/2019/2022 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
-#wwwroot/
+# Но лучше не игнорировать wwwroot, так как это часть проекта
+# wwwroot/
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/
@@ -95,8 +89,6 @@ StyleCopReport.xml
 *.pgc
 *.pgd
 *.rsp
-# but not Directory.Build.rsp, as it configures directory-level build defaults
-!Directory.Build.rsp
 *.sbr
 *.tlb
 *.tli
@@ -416,3 +408,23 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# ASP.NET Core specific ignores
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+/appsettings.*.json
+/launchSettings.json
+
+# But keep the base appsettings.json template
+!appsettings.json
+
+# Entity Framework Core migrations (optional - only if you don't want to track migrations)
+# /Migrations/
+
+# Runtime-specific files
+**/runtimes/
+
+# Optional: ignore local development certificates
+# *.pfx
+# *.pem
