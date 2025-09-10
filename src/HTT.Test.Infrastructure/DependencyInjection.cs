@@ -1,11 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HTT.Test.Contracts.Interfaces;
+using HTT.Test.Infrastructure.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HTT.Test.Infrastructure;
 
-public class DependencyInjection
+public static class DependencyInjection
 {
+    public static IServiceCollection ConfigureServices(IServiceCollection serviceCollection, IConfiguration configuration)
+    {
+        serviceCollection.AddScoped<IProductService, ProductService>();
+
+        return serviceCollection;
+    }
 }

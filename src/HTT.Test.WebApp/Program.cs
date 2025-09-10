@@ -1,4 +1,6 @@
 using HTT.Test.Database.Context;
+using HTT.Test.WebApp.BuildersExtensions;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,21 +8,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddDbContextFactory<TestDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddServiceRegister(builder.Configuration);
+builder.AddDbContext();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<IDbContextFactory<TestDbContext>>();
+    using var context = db.CreateDbContext();
+    context.Database.Migrate();
 }
 
 app.UseHttpsRedirection();
@@ -33,7 +36,6 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 
-app.MapGet("/api/products", async (IProductService service) =>
-    Results.Ok(await service.GetProductsInfo()));
+app.UseEndpoints();
 
 app.Run();

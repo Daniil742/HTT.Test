@@ -1,5 +1,6 @@
 ﻿using HTT.Test.Database.DataModels;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HTT.Test.Database.Context;
 
@@ -24,6 +25,12 @@ public class TestDbContext : DbContext
             entity.HasKey(c => c.Id);
             entity.Property(c => c.Name).IsRequired().HasMaxLength(50);
         });
+
+        modelBuilder.Entity<ProductDataModel>()
+            .HasData(InitialData.InitProducts());
+
+        modelBuilder.Entity<ProductCategoryDataModel>()
+            .HasData(InitialData.InitProductCategories());
 
         base.OnModelCreating(modelBuilder);
     }
